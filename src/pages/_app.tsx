@@ -1,6 +1,6 @@
 import "@/styles/globals.css";
 
-import { ClerkProvider, SignedIn } from "@clerk/nextjs";
+import { ClerkProvider, SignedIn, SignInButton,SignedOut,UserButton } from "@clerk/nextjs";
 import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
 import { trpc } from "@/context/trpc-provider";
@@ -8,14 +8,15 @@ import { trpc } from "@/context/trpc-provider";
 function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-      <ClerkProvider
-        signInUrl="/sign-in"
-        {...pageProps}
-      >
-        <SignedIn>
-          <Component {...pageProps} />
-        </SignedIn>
-      </ClerkProvider>
+    <ClerkProvider {...pageProps}>
+      <SignedOut>
+        <SignInButton />
+      </SignedOut>
+      <SignedIn>
+        <UserButton />
+      </SignedIn>
+      <Component {...pageProps} />
+    </ClerkProvider>
     </ThemeProvider>
   );
 }
